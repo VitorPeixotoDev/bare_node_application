@@ -28,6 +28,7 @@ const operation = () => {
                 createAnAccount()
                 break
             case 'Depositar':
+                deposit()
                 break
             case 'Cosultar Saldo':
                 break
@@ -83,5 +84,29 @@ const buildAccount = () => {
         operation()
     })
     .catch(err => console.log(err))
+}
+
+// add an amount yo user account
+const deposit = () => {
+    inquirer.prompt([{
+        name: 'accountName',
+        message: 'Qual o nome da sua conta?'
+    }])
+    .then(answer => {
+        const accountName = answer['accountName']
+        if(!checkAccount(accountName)){
+            return deposit()
+        }
+    })
+    .catch(err => console.log(err))
+}
+
+const checkAccount = accountName => {
+    if(!fs.existsSync(`accounts/${accountName}.json`)){
+        console.log(chalk.bgRed.black('Essa conta não existe. Certifique-se de que está usando o nome correto.'))
+        return false
+    }
+
+    return true
 }
 
