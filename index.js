@@ -34,6 +34,7 @@ const operation = () => {
                 getAccountBalance()
                 break
             case 'Sacar':
+                withDraw()
                 break
             case 'Sair':
                 console.log(chalk.bgBlue.black('Obrigado por usar o Account!'))
@@ -174,4 +175,33 @@ const getAccountBalance = () => {
     })
     .catch(err => console.log(err))
 
+}
+
+// withdraw from the account
+const withDraw = () => {
+
+    inquirer.prompt([{
+        name: 'accountName',
+        message: 'Qual o nome da sua conta?'
+    }])
+    .then(answer => {
+        const accountName = answer['accountName']
+
+        if(!checkAccount(accountName)){
+            return withDraw()
+        }
+
+        inquirer.prompt([{
+            name: 'amount',
+            message: 'Qual a quantia que você deseja sacar?'
+        }])
+        .then(answer => {
+            const amount = answer['amount']
+
+            console.log(amount)
+            operation()
+        })
+        .catch(err => console.log(err))
+    })
+    .catch(err => console.log(err))
 }
