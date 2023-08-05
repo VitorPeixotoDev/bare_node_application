@@ -27,6 +27,16 @@ const operation = () => {
             case 'Criar Conta':
                 createAnAccount()
                 break
+            case 'Depositar':
+                break
+            case 'Cosultar Saldo':
+                break
+            case 'Sacar':
+                break
+            case 'Sair':
+                console.log(chalk.bgBlue.black('Obrigado por usar o Account!'))
+                process.exit()
+                break
             default:
                 console.log('Por favor reinicie a operação.')
         }
