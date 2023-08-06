@@ -198,10 +198,36 @@ const withDraw = () => {
         .then(answer => {
             const amount = answer['amount']
 
-            console.log(amount)
-            operation()
+            removeAmount(accountName, amount)
+            //operation()
         })
         .catch(err => console.log(err))
     })
     .catch(err => console.log(err))
+}
+
+const removeAmount = (accountName, amount) => {
+    const accountData = getAccount(accountName)
+
+    if(!amount){
+        console.log(
+            chalk.bgRed.black('Ocorreu um erro, tente novamente mais tarde!')
+        )
+        return withDraw()
+    }
+
+    if(accountData.balance < amount) {
+        console.log(chalk.bgRed.black('Seu saldo é insuficiente para efetura esse saque.'))
+        return withDraw()
+    }
+
+    accountData.balance = parseFloat(accountData.balance) - parseFloat(amount)
+
+    fs.writeFileSync(
+        `accounts/${accountName}.json`,
+        JSON.stringify(accountData),
+        (err => console.log(err))
+    )
+
+    console.log(chalk.bgGreen.black(`${accountName}, você realizou um saque de $${amount} em sua conta Accounts!`))
 }
